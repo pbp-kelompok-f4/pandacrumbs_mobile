@@ -98,7 +98,32 @@ Membantu pengguna menjalankan target pribadi, misalnya menghabiskan bahan yang t
 
 ## Alur pengintegrasian data antara aplikasi mobile dan situs web (PWS) dari Proyek Tengah Semester melalui web service Django REST Framework
 
-(soon)
+Aplikasi mobile **PandaCrumbs** (`pandacrumbs_mobile`) berkomunikasi secara asinkron dengan backend web Django (`PandaCrumbs`) yang di-deploy pada server PWS (`https://mohammad-adzka-pandacrumbs.pws.cs.ui.ac.id/`) menggunakan **Django REST Framework (DRF)** dengan format pertukaran data **JSON**:
+
+1. **Autentikasi & Manajemen Sesi:** Pengguna melakukan login atau registrasi melalui endpoint `/auth/login/` dan `/auth/register/`. Server Django mengirimkan cookie sesi yang disimpan oleh klien Flutter (`pbp_django_auth`) untuk mengautentikasi request pada fitur yang membutuhkan akses akun.
+2. **Pengambilan Data (`GET`):** Halaman-halaman pada aplikasi Flutter mengirimkan HTTP `GET` request secara asinkron ke endpoint masing-masing modul, lalu mem-parsing respons JSON ke dalam model Dart untuk ditampilkan ke pengguna.
+3. **Pengiriman & Perubahan Data (`POST`, `PUT`/`PATCH`, `DELETE`):** Interaksi pengguna seperti menambah catatan food waste, membuat penawaran makanan, mengklaim porsi, atau melakukan check-in habit dikirimkan dalam format JSON ke endpoint DRF terkait, divalidasi oleh serializer Django, dan disimpan langsung ke database PWS.
+
+### Daftar Endpoint API (Django REST Framework)
+**Base URL:** `https://mohammad-adzka-pandacrumbs.pws.cs.ui.ac.id`
+
+| Modul | Endpoint | Method | Akses | Fungsi |
+| :--- | :--- | :--- | :--- | :--- |
+| **Autentikasi** | `/auth/login/` | `POST` | Publik | Login pengguna dan membuat sesi Flutter |
+| **Autentikasi** | `/auth/register/` | `POST` | Publik | Registrasi akun pengguna baru |
+| **Autentikasi** | `/auth/logout/` | `POST` | Login | Menghapus sesi login pengguna |
+| **Smart Pantry (Gathfaan)** | `/pantry/api/` | `GET`, `POST` | Login | Mengambil daftar & menambah item stok pantry pribadi |
+| **Leftover Recipe (Adzka)** | `/recipes/api/` | `GET`, `POST` | Publik (`GET`) / Login (`POST`) | Mengambil daftar resep komunitas & menambah resep baru |
+| **Food Waste Audit (Fayiz)** | `/waste-audit/api/` | `GET`, `POST` | Login | Mengambil riwayat & menambah catatan makanan terbuang |
+| **Food Waste Audit (Fayiz)** | `/waste-audit/api/<id>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Login | Melihat detail, mengubah, atau menghapus catatan pribadi |
+| **Food Waste Audit (Fayiz)** | `/waste-audit/api/summary/` | `GET` | Login | Mengambil ringkasan total catatan & estimasi kerugian |
+| **Community Sharing (Malvin)** | `/community/api/` | `GET`, `POST` | Publik (`GET`) / Login (`POST`) | Mengambil daftar penawaran & membuat penawaran makanan baru |
+| **Community Sharing (Malvin)** | `/community/api/<id>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Publik (`GET`) / Login | Melihat detail, mengubah, atau menghapus penawaran milik sendiri |
+| **Community Sharing (Malvin)** | `/community/api/<id>/claim/` | `POST` | Login | Mengajukan klaim porsi makanan pada penawaran tersedia |
+| **Community Sharing (Malvin)** | `/community/api/<id>/claims/` | `GET` | Publik | Melihat daftar klaim pada suatu penawaran makanan |
+| **Habit Challenge (Rakhel)** | `/habit-challenge/api/plans/` | `GET`, `POST` | Login | Mengambil daftar & membuat rencana tantangan pribadi |
+| **Habit Challenge (Rakhel)** | `/habit-challenge/api/plans/<id>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Login | Melihat detail, mengubah, atau menghapus rencana tantangan |
+| **Habit Challenge (Rakhel)** | `/habit-challenge/api/completions/` | `GET`, `POST` | Login | Mengambil riwayat & mencatat check-in harian tantangan |
 
 ## Peran Pengguna:
 
