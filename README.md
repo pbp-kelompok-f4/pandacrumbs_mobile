@@ -112,8 +112,10 @@ Aplikasi mobile **PandaCrumbs** (`pandacrumbs_mobile`) berkomunikasi secara asin
 | **Autentikasi** | `/auth/login/` | `POST` | Publik | Login pengguna dan membuat sesi Flutter |
 | **Autentikasi** | `/auth/register/` | `POST` | Publik | Registrasi akun pengguna baru |
 | **Autentikasi** | `/auth/logout/` | `POST` | Login | Menghapus sesi login pengguna |
-| **Smart Pantry (Gathfaan)** | `/pantry/api/` | `GET`, `POST` | Login | Mengambil daftar & menambah item stok pantry pribadi |
-| **Leftover Recipe (Adzka)** | `/recipes/api/` | `GET`, `POST` | Publik (`GET`) / Login (`POST`) | Mengambil daftar resep komunitas & menambah resep baru |
+| **Smart Pantry (Gathfaan)** | `/pantry/api/`, `/pantry/api/<id>/` | `GET` | Login | Mengambil daftar & detail item stok pantry pribadi |
+| **Smart Pantry (Gathfaan)** | `/api/pantry/`, `/api/pantry/<id>/` | `GET`, `POST`, `PUT`, `DELETE` | Login | Endpoint ViewSet CRUD stok pantry pribadi |
+| **Leftover Recipe (Adzka)** | `/recipes/api/`, `/recipes/api/<id>/` | `GET` | Publik | Mengambil daftar & detail resep komunitas |
+| **Leftover Recipe (Adzka)** | `/api/recipes/`, `/api/recipes/<id>/` | `GET`, `POST`, `PUT`, `DELETE` | Publik / Login | Endpoint ViewSet CRUD resep komunitas | 
 | **Food Waste Audit (Fayiz)** | `/waste-audit/api/` | `GET`, `POST` | Login | Mengambil riwayat & menambah catatan makanan terbuang |
 | **Food Waste Audit (Fayiz)** | `/waste-audit/api/<id>/` | `GET`, `PUT`, `PATCH`, `DELETE` | Login | Melihat detail, mengubah, atau menghapus catatan pribadi |
 | **Food Waste Audit (Fayiz)** | `/waste-audit/api/summary/` | `GET` | Login | Mengambil ringkasan total catatan & estimasi kerugian |
